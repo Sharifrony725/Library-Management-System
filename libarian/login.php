@@ -1,24 +1,20 @@
 <?php
+require_once '../db_conn.php';
 session_start();
-if (isset($_SESSION['student_login'])) {
+if (isset($_SESSION['libarian_login'])) {
     header('location:index.php');
 }
-require_once '../db_conn.php';
 if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
-    $sql = "SELECT * FROM studests WHERE email='$email' OR username='$email'";
+    $sql = "SELECT * FROM libarian WHERE email='$email' OR username='$email'";
     $result =  mysqli_query($db_connect, $sql);
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         if ($row['password'] == $password) {
-            if ($row['status'] == 1) {
-                $_SESSION['student_login'] = $email;
-                $_SESSION['student_id'] = $row['id'];
-                header('location:index.php');
-            } else {
-                $error = "You Status Inactive";
-            }
+            $_SESSION['libarian_login'] = $email;
+            $_SESSION['libarian_username'] = $row['username'];
+            header('location:index.php');
         } else {
             $error = "You enterd wrong password";
         }
@@ -97,10 +93,9 @@ if (isset($_POST['submit'])) {
                                 <input type="submit" name="submit" value="Login" class="btn btn-primary btn-block">
                             </div>
                             <div class="form-group text-center">
-                                <!-- <a href="pages_forgot-password.html">Forgot password?</a> -->
+                                <a href="pages_forgot-password.html">Forgot password?</a>
                                 <hr />
-                                <span>Don't have an account?</span>
-                                <a href="register.php" class="btn btn-block mt-sm">Register</a>
+
                             </div>
                         </form>
                     </div>

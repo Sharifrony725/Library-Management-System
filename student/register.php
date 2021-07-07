@@ -1,5 +1,9 @@
 <?php
 require_once '../db_conn.php';
+session_start();
+if (isset($_SESSION['student_login'])) {
+    header('location:index.php');
+}
 if (isset($_POST['btn'])) {
 
     $first_name = $_POST['first_name'];
@@ -72,13 +76,6 @@ if (isset($_POST['btn'])) {
         } else {
             $email_exits = "This email already exists.";
         }
-        // $sql = "INSERT INTO studests(first_name, last_name,roll, registration, email, username, password, phone,status) VALUES ('$first_name','$last_name','$roll','$registration','$email','$username','$password','$phone','0')";
-        // $query_result =  mysqli_query($db_connect, $sql);
-        // if ($query_result) {
-        //     $message = "Registration Successfully";
-        // } else {
-        //     $error =  "Something wrong!";
-        // }
     }
 }
 ?>
